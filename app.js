@@ -54,7 +54,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(3000, function () {
-    var engine = Chalk.blue(Process.jsEngine ? Process.jsEngine : 'v8');
+    var engine = Chalk.green(Process.jsEngine ? Process.jsEngine : 'v8');
     var runningMsg = 'Server running ' + engine + ' and listening on port 3000';
     Console.log(runningMsg);
 });
