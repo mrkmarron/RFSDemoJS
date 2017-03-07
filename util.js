@@ -2,6 +2,7 @@
 "use strict";
 
 var Console = require('console');
+var Chalk = require('chalk');
 var Async = require('async');
 var Fs = require('fs');
 var Path = require('path');
@@ -9,7 +10,7 @@ var FsExtra = require('fs-extra');
 
 var errCtr = 0;
 function resourceError(err, res, msg) {
-    console.warn(msg);
+    console.warn(Chalk.red(msg));
 
     res.status(501).send('request error: ' + msg);
 }
