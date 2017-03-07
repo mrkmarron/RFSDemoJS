@@ -1,5 +1,6 @@
 "use strict";
 var Console = require('console');
+var Chalk = require('chalk');
 var Process = require('process');
 var Express = require('express');
 var Util = require('./util');
@@ -53,5 +54,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(3000, function () {
-    Console.log(`Server running ${Process.jsEngine ? Process.jsEngine : 'v8'} and listening on port 3000`);
+    var engine = Chalk.blue(Process.jsEngine ? Process.jsEngine : 'v8');
+    var runningMsg = 'Server running ' + engine + ' and listening on port 3000';
+    Console.log(runningMsg);
 });
