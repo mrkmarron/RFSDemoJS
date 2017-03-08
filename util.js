@@ -10,7 +10,7 @@ var FsExtra = require('fs-extra');
 
 var errCtr = 0;
 function resourceError(err, res, msg) {
-    console.warn(Chalk.red(msg));
+    Console.warn(Chalk.red(msg));
 
     res.status(501).send('request error: ' + msg);
 }
