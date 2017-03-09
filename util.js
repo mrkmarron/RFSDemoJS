@@ -94,12 +94,17 @@ function processFileLoadForDisplay(path, data) {
 function loadFileInfo(rootDir, req, res) {
     var path = canonicalPath(rootDir, req.params.subpath);
 
-    Console.log(`${new Date().toISOString()}: user reading file ${path}`);
+    var fileRequestTime = new Date().toISOString();
+    Console.log(`(${fileRequestTime}) -- start reading file ${path}`);
+
     Fs.readFile(path, 'utf8', function (err, data) {
         if (err) {
             resourceError(err, res, "File not found " + path);
         }
         else {
+            var fileResultTime = new Date().toISOString();
+            Console.log(`(${fileResultTime}) -- complete reading file ${path}`);
+
             var output = processFileLoadForDisplay(path, data);
             res.send(output);
         }
@@ -109,6 +114,10 @@ exports.loadFileInfo = loadFileInfo;
 
 function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
     var path = req.params.subpath ? canonicalPath(rootDir, req.params.subpath) : rootDir;
+
+    var directoryRequestTime = new Date().toISOString();
+    Console.log(`(${directoryRequestTime}) -- start reading directory ${path}`);
+
     Fs.readdir(path, function (err, files) {
         if (err) {
             resourceError(err, res, "Error: directory not found " + path);
@@ -143,6 +152,9 @@ function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
                 if(rootDir) {
                     setTimeout(function () { moveHelloWorld(rootDir); }, 10);
                 }
+
+                 var directoryResultTime = new Date().toISOString();
+                Console.log(`(${directoryResultTime}) -- complete reading directory ${path}`);
 
                 processForDisplay(tresults, extraDir);
                 res.render(viewName, { files: tresults });
