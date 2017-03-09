@@ -1,0 +1,1 @@
+//Empty dummy JS file we use as a launch target to make VSCode happy.

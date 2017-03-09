@@ -99,7 +99,8 @@ function loadFileInfo(rootDir, req, res) {
 
     Fs.readFile(path, 'utf8', function (err, data) {
         if (err) {
-            resourceError(err, res, "File not found " + path);
+            var fileErrorTime = new Date().toISOString();
+            resourceError(err, res, `(${fileErrorTime}) -- File not found ${path}`);
         }
         else {
             var fileResultTime = new Date().toISOString();
@@ -120,7 +121,8 @@ function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
 
     Fs.readdir(path, function (err, files) {
         if (err) {
-            resourceError(err, res, "Error: directory not found " + path);
+            var directoryErrorTime = new Date().toISOString();
+            resourceError(err, res, `(${directoryErrorTime}) -- Directory not found ${path}`);
         }
         else {
             var flist = files.filter(function (value) {
@@ -153,7 +155,7 @@ function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
                     setTimeout(function () { moveHelloWorld(rootDir); }, 10);
                 }
 
-                 var directoryResultTime = new Date().toISOString();
+                var directoryResultTime = new Date().toISOString();
                 Console.log(`(${directoryResultTime}) -- complete reading directory ${path}`);
 
                 processForDisplay(tresults, extraDir);

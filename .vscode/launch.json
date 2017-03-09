@@ -13,24 +13,27 @@
             "osx": { "runtimeExecutable": "nvs" },
             "linux": { "runtimeExecutable": "nvs" },
             "runtimeArgs": [ 
-                "chakracore" 
-            ]
+                "chakracore-nightly" 
+            ],
+                        "trace": "all"
         },
         {
             "name": "TraceDebug",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/app.js",
+            "program": "${workspaceRoot}/.vscode/dummy.js",
             "stopOnEntry": true,
             "windows": { "runtimeExecutable": "nvs.cmd" },
             "osx": { "runtimeExecutable": "nvs" },
             "linux": { "runtimeExecutable": "nvs" },
             "runtimeArgs": [
                 "chakracore-nightly",
-                "--nolazy", 
+                "--nolazy",
+                "--break-first", 
                 "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnSigInt/" /*Change to desired trace file here!!!*/
             ],
-            "console": "internalConsole"
+            "console": "internalConsole",
+            "trace": "all"
         }
     ]
 }
