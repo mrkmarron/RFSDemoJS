@@ -14,8 +14,7 @@
             "linux": { "runtimeExecutable": "nvs" },
             "runtimeArgs": [ 
                 "chakracore-nightly" 
-            ],
-                        "trace": "all"
+            ]
         },
         {
             "name": "TraceDebug",
@@ -27,13 +26,13 @@
             "osx": { "runtimeExecutable": "nvs" },
             "linux": { "runtimeExecutable": "nvs" },
             "runtimeArgs": [
+                "run",
                 "chakracore-nightly",
                 "--nolazy",
                 "--break-first", 
                 "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnSigInt/" /*Change to desired trace file here!!!*/
             ],
-            "console": "internalConsole",
-            "trace": "all"
+            "console": "internalConsole"
         }
     ]
 }
