@@ -2,6 +2,7 @@
   "name": "rfs-demo",
   "version": "0.1.0",
   "description": "A file explorer server demo for diagnostic tracing and TTD.",
+  "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "async": "2.0.1",
