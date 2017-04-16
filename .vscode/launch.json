@@ -8,13 +8,15 @@
       "request": "launch",
       "program": "${workspaceRoot}/.vscode/empty.js",
       "stopOnEntry": true,
-      "runtimeExecutable": "nvs",
+      "windows": { "runtimeExecutable": "nvs.exe" },
+      "osx": { "runtimeExecutable": "nvs" },
+      "linux": { "runtimeExecutable": "nvs" },
       "runtimeArgs": [
           "run",
-          "chakra/8.0.0",
+          "chakracore-nightly",
           "--nolazy",
           "--break-first", 
-          "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0/trace-0/"
+          "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0/trace-0"
       ],
       "console": "internalConsole"
     }

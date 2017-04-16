@@ -3,10 +3,12 @@
   "tasks": [
     {
       "taskName": "record",
-      "command": "nvs",
+      "windows": { "command": "nvs.exe" },
+      "osx": { "command": "nvs" },
+      "linux": { "command": "nvs" },
       "args": [
         "run",
-        "chakra/8.0.0",
+        "chakracore-nightly",
         "--record",
         "${workspaceRoot}/index.js"
       ],
