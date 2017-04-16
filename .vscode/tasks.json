@@ -1,0 +1,17 @@
+{
+  "version": "0.1.0",
+  "tasks": [
+    {
+      "taskName": "record",
+      "command": "nvs",
+      "args": [
+        "run",
+        "chakra/8.0.0",
+        "--record",
+        "${workspaceRoot}/index.js"
+      ],
+      "isShellCommand": true,
+      "showOutput": "always"
+    }
+  ]
+}

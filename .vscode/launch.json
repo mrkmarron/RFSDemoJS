@@ -1,38 +1,22 @@
 {
-    // Use IntelliSense to learn about possible Node.js debug attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch",
-            "program": "${workspaceRoot}/app.js",
-            "windows": { "runtimeExecutable": "nvs.cmd" },
-            "osx": { "runtimeExecutable": "nvs" },
-            "linux": { "runtimeExecutable": "nvs" },
-            "runtimeArgs": [ 
-                "chakracore-nightly" 
-            ]
-        },
-        {
-            "name": "TraceDebug",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceRoot}/.vscode/dummy.js",
-            "stopOnEntry": true,
-            "windows": { "runtimeExecutable": "nvs.cmd" },
-            "osx": { "runtimeExecutable": "nvs" },
-            "linux": { "runtimeExecutable": "nvs" },
-            "runtimeArgs": [
-                "run",
-                "chakracore-nightly",
-                "--nolazy",
-                "--break-first", 
-                "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnSigInt/" /*Change to desired trace file here!!!*/
-            ],
-            "console": "internalConsole"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "replay",
+      "type": "node",
+      "protocol": "legacy",
+      "request": "launch",
+      "program": "${workspaceRoot}/.vscode/empty.js",
+      "stopOnEntry": true,
+      "runtimeExecutable": "nvs",
+      "runtimeArgs": [
+          "run",
+          "chakra/8.0.0",
+          "--nolazy",
+          "--break-first", 
+          "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0/trace-0/"
+      ],
+      "console": "internalConsole"
+    }
+  ]
 }
