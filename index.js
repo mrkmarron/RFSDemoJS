@@ -1,63 +1,58 @@
-"use strict";
-var Console = require('console');
-var Chalk = require('chalk');
-var Process = require('process');
-var Express = require('express');
-var Util = require('./util');
+'use strict';
 
-//Add support for Azure upload
-if (Process.jsEngine === 'chakracore') {
-    /*
-    //Update this code to use your copy of diagnostics buddy if desired
-    
-    Console.log('Setting up Azure trace uploader.');  
-    var traceMgr = require('trace_mgr');
-    var diagBuddy = require(__dirname + '\\DiagnosticsBuddy\\index.js');
+var chalk = require('chalk');
+var express = require('express');
+var path = require('path');
+var util = require('./util');
 
-    var initDemoSampleRates = {emitOnLogWarn: 1.0, emitOnLogError: 0.25, emitOnAssert: 1.0 };
-    traceMgr.setOptions({ remoteTraceManagerObj: diagBuddy.AzureManager, initialRates: initDemoSampleRates });
-    */
-
-    var traceMgr = require('trace_mgr');
-    var initDemoSampleRates = {emitOnLogWarn: 1.0, emitOnLogError: 0.25, emitOnAssert: 1.0 };
-    traceMgr.setOptions({ initialRates: initDemoSampleRates });
+if (process.jsEngine && process.jsEngine === 'chakracore') {
+  // load ChakraCore's trace_mgr
+  var trace_mgr = require('trace_mgr');
+  trace_mgr.setOptions({ initialRates: {
+    emitOnLogWarn: 1.0,
+    emitOnLogError: 0.25,
+    emitOnAssert: 1.0
+  }});;
 }
 
-var s_rootDir = Util.canonicalPath(__dirname, 'testdata');
+const DATA_DIR = path.resolve(__dirname, 'testdata');
 
-var app = Express();
+var app = express();
 app.set('view engine', 'ejs');
-app.set('views', Util.canonicalPath(__dirname, 'views'));
+app.set('views', path.resolve(__dirname, 'views'));
 
 function noCache(req, res, next) {
-    res.setHeader('Cache-Control', 'no-cache');
-    next();
+  res.setHeader('Cache-Control', 'no-cache');
+  next();
 }
 
 app.get('/', noCache, function (req, res) {
-    Console.log(`${new Date().toISOString()}: new connection from ${req.ip.slice(req.ip.lastIndexOf(':') + 1)}`);
-    Util.loadDirectoryInfo(s_rootDir, req, res, 'index.ejs', s_rootDir);
+  console.log(`${new Date().toISOString()}: new connection from ${req.ip.slice(req.ip.lastIndexOf(':') + 1)}`);
+  util.loadDirectoryInfo(DATA_DIR, req, res, 'index.ejs', DATA_DIR);
 });
+
 app.get('/subdir/', noCache, function (req, res) {
-    Util.loadDirectoryInfo(s_rootDir, req, res, 'dir.ejs');
+  util.loadDirectoryInfo(DATA_DIR, req, res, 'dir.ejs');
 });
+
 app.get('/subdir/:subpath', noCache, function (req, res) {
-    Util.loadDirectoryInfo(s_rootDir, req, res, 'dir.ejs');
+  util.loadDirectoryInfo(DATA_DIR, req, res, 'dir.ejs');
 });
+
 app.get('/contents/:subpath', noCache, function (req, res) {
-    Util.loadFileInfo(s_rootDir, req, res);
+  util.loadFileInfo(DATA_DIR, req, res);
 });
 
 app.use(function (err, req, res, next) {
-    Console.error(err.stack);
-    res.status(500).send('Something broke!');
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 app.listen(3000, function () {
-    var msg = {
-        engine: Chalk.green(Process.jsEngine ? Process.jsEngine : 'v8'),
-        port: "3000",
-        pid: process.pid
-    }
-    console.log(msg);
+  var msg = {
+    engine: chalk.green(process.jsEngine ? process.jsEngine : 'v8'),
+    port: "3000",
+    pid: process.pid
+  }
+  console.log(msg);
 });
