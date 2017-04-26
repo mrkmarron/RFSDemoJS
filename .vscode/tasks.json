@@ -1,19 +1,29 @@
 {
-  "version": "0.1.0",
-  "tasks": [
-    {
-      "taskName": "record",
-      "windows": { "command": "nvs.exe" },
-      "osx": { "command": "nvs" },
-      "linux": { "command": "nvs" },
-      "args": [
-        "run",
-        "chakracore-nightly",
-        "--record",
-        "${workspaceRoot}/index.js"
-      ],
-      "isShellCommand": true,
-      "showOutput": "always"
-    }
-  ]
+    "version": "0.1.0",
+    "windows": {
+        "command": "nvs.cmd"
+    },
+    "osx": {
+        "command": "nvs"
+    },
+    "linux": {
+        "command": "nvs"
+    },
+    "tasks": [
+        {
+            "taskName": "pull-latest-trace",
+            "args": [
+                "run",
+                "chakracore-nightly/v8.0.0-nightly20170415265fc0bedc",
+                "${workspaceRoot}/../DiagnosticsBuddy/app.js",
+                "-d",
+                "emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0_trace-0.trc",
+                "-l",
+                "${workspaceRoot}/_diagnosticTraces/default"
+            ],
+            "suppressTaskName": true
+        }
+    ],
+    "isShellCommand": true,
+    "showOutput": "always"
 }

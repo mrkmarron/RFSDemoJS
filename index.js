@@ -7,12 +7,17 @@ var util = require('./util');
 
 if (process.jsEngine && process.jsEngine === 'chakracore') {
   // load ChakraCore's trace_mgr
+  var diagBuddy = require(__dirname + '/../DiagnosticsBuddy/index.js');
   var trace_mgr = require('trace_mgr');
-  trace_mgr.setOptions({ initialRates: {
-    emitOnLogWarn: 1.0,
-    emitOnLogError: 0.25,
-    emitOnAssert: 1.0
-  }});;
+
+  trace_mgr.setOptions({ 
+    remoteTraceManagerObj: diagBuddy.AzureManager,
+    initialRates: {
+      emitOnLogWarn: 1.0,
+      emitOnLogError: 0.25,
+      emitOnAssert: 1.0
+    }
+  });
 }
 
 const DATA_DIR = path.resolve(__dirname, 'testdata');
@@ -50,7 +55,7 @@ app.use(function (err, req, res, next) {
 
 app.listen(3000, function () {
   var msg = {
-    engine: chalk.green(process.jsEngine ? process.jsEngine : 'v8'),
+    engine: process.jsEngine ? process.jsEngine : 'v8',
     port: "3000",
     pid: process.pid
   }
