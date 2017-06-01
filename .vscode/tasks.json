@@ -8,7 +8,7 @@
       "linux": { "command": "nvs" },
       "args": [
         "run",
-        "chakracore-nightly",
+        "chakracore/8.0.0-pre3",
         "--record",
         "${workspaceRoot}/index.js"
       ],

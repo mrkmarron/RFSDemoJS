@@ -4,16 +4,15 @@
     {
       "name": "replay",
       "type": "node",
-      "protocol": "legacy",
       "request": "launch",
-      "program": "${workspaceRoot}/.vscode/empty.js",
+      "protocol": "inspector",
       "stopOnEntry": true,
       "windows": { "runtimeExecutable": "nvs.cmd" },
       "osx": { "runtimeExecutable": "nvs" },
       "linux": { "runtimeExecutable": "nvs" },
       "runtimeArgs": [
           "run",
-          "chakracore/8.0.0-pre2",
+          "chakracore/8.0.0-pre3",
           "--nolazy",
           "--break-first", 
           "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0/trace-0"
