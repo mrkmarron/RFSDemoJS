@@ -10,8 +10,8 @@ To get started with instantRepro diagnostic tracing and Time-Travel Debugging yo
 Install [NVS](https://github.com/jasongin/nvs/blob/master/README.md) which is a cross-platform tool for switching between different versions of Node.js and will allow you to easily switch between Node-ChakraCore and other Node.js versions. Once NVS is installed simply enter the following commands in the console:
 ```
 nvs remote chakracore https://github.com/nodejs/node-chakracore/releases
-nvs add chakracore/chakracore/8.0.0-pre2
-nvs use chakracore/8.0.0-pre2
+nvs add chakracore/8.0.0-pre3
+nvs use chakracore/8.0.0-pre3
 ```
 
 ### Get Visual Studio Code
@@ -26,7 +26,7 @@ git clone https://github.com/mrkmarron/RFSDemoJS <appdir>
 Start up the server, by default listents on `127.0.0.1`, in record mode:
 ```
 cd <appdir> 
-nvs run chakracore/8.0.0-pre2 --record index.js
+nvs run chakracore/8.0.0-pre3 --record index.js
 ```
 
 To trigger the bug and produce the instantRepro diagnostic trace you can:
@@ -47,19 +47,18 @@ To debug this trace launch Visual Studio Code and open the RFSDemo project/direc
 {
   "name": "replay",
   "type": "node",
-  "protocol": "legacy",
   "request": "launch",
-  "program": "${workspaceRoot}/.vscode/empty.js",
+  "protocol": "inspector",
   "stopOnEntry": true,
   "windows": { "runtimeExecutable": "nvs.cmd" },
   "osx": { "runtimeExecutable": "nvs" },
   "linux": { "runtimeExecutable": "nvs" },
   "runtimeArgs": [
-    "run",
-    "chakracore/8.0.0-pre2",
-    "--nolazy",
-    "--break-first", 
-    "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0/trace-0"
+      "run",
+      "chakracore/8.0.0-pre3",
+      "--nolazy",
+      "--break-first", 
+      "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0/trace-0"
   ],
   "console": "internalConsole"
 }
