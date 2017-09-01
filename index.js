@@ -5,11 +5,11 @@ var express = require('express');
 var path = require('path');
 var util = require('./util');
 
-if (process.jsEngine && process.jsEngine === 'chakracore') {
-  // setup credentials for cloud trace management
-  //require('../DiagnosticsBuddy/index.js').enableAzureUploads();
+ // setup credentials for cloud trace management
+ require('../DiagnosticsBuddy/index.js').enableAzureUploads();
 
-  // set tracing options for demo purposes
+// set tracing options for demo purposes
+if (process.jsEngine && process.jsEngine === 'chakracore') {
   var trace_mgr = require('trace_mgr');
   trace_mgr.setOptions({ initialRates: {
     emitOnLogWarn: 1.0,
