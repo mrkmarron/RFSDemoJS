@@ -2,30 +2,6 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "replay",
-      "type": "node",
-      "request": "launch",
-      "protocol": "inspector",
-      "stopOnEntry": true,
-      "windows": {
-        "runtimeExecutable": "nvs.cmd"
-      },
-      "osx": {
-        "runtimeExecutable": "nvs"
-      },
-      "linux": {
-        "runtimeExecutable": "nvs"
-      },
-      "runtimeArgs": [
-        "run",
-        "chakracore/8.0.0-pre3",
-        "--nolazy",
-        "--break-first",
-        "--replay-debug=${workspaceRoot}/_diagnosticTraces/emitOnLogWarn_graceful-fs_line-78_column-13_bucket-0/trace-0"
-      ],
-      "console": "internalConsole"
-    },
-    {
       "name": "TTD Replay",
       "type": "node",
       "request": "launch",

@@ -6,13 +6,16 @@ var path = require('path');
 var util = require('./util');
 
 if (process.jsEngine && process.jsEngine === 'chakracore') {
-  // load ChakraCore's trace_mgr
+  // setup credentials for cloud trace management
+  require('../DiagnosticsBuddy/index.js').enableAzureUploads();
+
+  // set tracing options for demo purposes
   var trace_mgr = require('trace_mgr');
   trace_mgr.setOptions({ initialRates: {
     emitOnLogWarn: 1.0,
     emitOnLogError: 0.25,
     emitOnAssert: 1.0
-  }});;
+  }});
 }
 
 const DATA_DIR = path.resolve(__dirname, 'testdata');
@@ -55,4 +58,5 @@ app.listen(3000, function () {
     pid: process.pid
   }
   console.log(msg);
-});
+}); 
+
