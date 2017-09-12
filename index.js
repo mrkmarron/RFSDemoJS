@@ -6,7 +6,7 @@ var path = require('path');
 var util = require('./util');
 
  // setup credentials for cloud trace management
- require('../DiagnosticsBuddy/index.js').enableAzureUploads();
+ require('./DiagnosticsBuddy/index.js').enableAzureUploads();
 
 // set tracing options for demo purposes
 if (process.jsEngine && process.jsEngine === 'chakracore') {

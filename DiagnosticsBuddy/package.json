@@ -1,0 +1,14 @@
+{
+  "name": "diagnostics-buddy",
+  "version": "0.1.0",
+  "description": "Helper application for managing Azure & Diagnostic Traces.",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "async": "2.1.4",
+    "azure-storage": "2.0.0",
+    "commander": "2.9.0",
+    "fs-extra": "2.0.0",
+    "tmp": "0.0.33"
+  }
+}
