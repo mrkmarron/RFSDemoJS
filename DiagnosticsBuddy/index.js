@@ -84,7 +84,7 @@ function loadRemoteAccessInfo() {
         }
     }
     catch (ex) {
-        ;
+        console.log(ex);
     }
 
     return res;
