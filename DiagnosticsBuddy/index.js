@@ -74,6 +74,7 @@ function loadRemoteAccessInfo() {
     try {
         if (process.env.DIAGNOSTICS_BUDDY_STORAGE_CREDENTIALS) {
             res = JSON.parse(process.env.DIAGNOSTICS_BUDDY_STORAGE_CREDENTIALS);
+            console.log('process.env.DIAGNOSTICS_BUDDY_STORAGE_CREDENTIALS is ' + JSON.stringify(res, undefined, 2));
         }
         else {
             const moduleroot = path.dirname(require.main.filename);
