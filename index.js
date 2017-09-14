@@ -51,10 +51,34 @@ app.use(function (err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
-app.listen(3000, function () {
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+app.listen(port, function () {
+  var addr = server.address();
   var msg = {
     engine: chalk.green(process.jsEngine ? process.jsEngine : 'v8'),
-    port: "3000",
+    port: addr.port,
     pid: process.pid
   }
   console.log(msg);
