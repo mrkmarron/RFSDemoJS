@@ -5,6 +5,7 @@ var express = require('express');
 var path = require('path');
 var process = require('process');
 var util = require('./util');
+var fs = require('fs');
 
  // setup credentials for cloud trace management
  require('./DiagnosticsBuddy/index.js').enableAzureUploads();
@@ -19,8 +20,16 @@ if (process.jsEngine && process.jsEngine === 'chakracore') {
   trace_mgr.setOptions({ initialRates: {
     emitOnLogWarn: 1.0,
     emitOnLogError: 0.25,
-    emitOnAssert: 1.0
+    emitOnAssert: 1.0,
+    localTraceDirectory: __dirname
   }});
+}
+
+if (!fs.existsSync('_tmptmptmp')) {
+    fs.mkdirSync('_tmptmptmp');
+}
+if (!fs.existsSync('_diagnosticTraces')) {
+  fs.mkdirSync('_diagnosticTraces');
 }
 
 const DATA_DIR = path.resolve(__dirname, 'testdata');
