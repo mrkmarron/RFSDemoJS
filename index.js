@@ -3,10 +3,14 @@
 var chalk = require('chalk');
 var express = require('express');
 var path = require('path');
+var process = require('process');
 var util = require('./util');
 
  // setup credentials for cloud trace management
  require('./DiagnosticsBuddy/index.js').enableAzureUploads();
+
+console.log('process.env. DO_TTD_RECORD is  ' + process.env.DO_TTD_RECORD);
+console.log('process.env.DIAGNOSTICS_BUDDY_STORAGE_CREDENTIALS is ' + process.env.DIAGNOSTICS_BUDDY_STORAGE_CREDENTIALS);
 
 // set tracing options for demo purposes
 if (process.jsEngine && process.jsEngine === 'chakracore') {
