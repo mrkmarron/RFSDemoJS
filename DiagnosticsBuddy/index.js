@@ -78,9 +78,10 @@ function loadRemoteAccessInfo() {
         else {
             const moduleroot = path.dirname(require.main.filename);
             const configPath = path.resolve(moduleroot, 'azureconfig.json');
-
-            const contents = fs.readFileSync(configPath);
-            res = JSON.parse(contents);
+            if (fs.existsSync(configPath)) {
+                const contents = fs.readFileSync(configPath);
+                res = JSON.parse(contents);
+            }
         }
     }
     catch (ex) {

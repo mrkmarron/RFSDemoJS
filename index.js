@@ -74,7 +74,7 @@ function normalizePort(val) {
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-app.listen(port, function () {
+var server = app.listen(port, function () {
   var addr = server.address();
   var msg = {
     engine: chalk.green(process.jsEngine ? process.jsEngine : 'v8'),
