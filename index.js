@@ -48,6 +48,15 @@ app.get('/', noCache, function (req, res) {
   util.loadDirectoryInfo(DATA_DIR, req, res, 'index.ejs', DATA_DIR);
 });
 
+app.get('/forceTrace', noCache, function (req, res) {
+  process.nextTick(() => {
+      setTimeout(() => {
+          console.error('this is a forced trace!');
+          util.loadDirectoryInfo(DATA_DIR, req, res, 'index.ejs', DATA_DIR);
+      });
+  });
+});
+
 app.get('/subdir/', noCache, function (req, res) {
   util.loadDirectoryInfo(DATA_DIR, req, res, 'dir.ejs');
 });
