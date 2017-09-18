@@ -19,7 +19,7 @@ if (process.jsEngine && process.jsEngine === 'chakracore') {
   var trace_mgr = require('trace_mgr');
   trace_mgr.setOptions({ initialRates: {
     emitOnLogWarn: 1.0,
-    emitOnLogError: 0.25,
+    emitOnLogError: 1.0,
     emitOnAssert: 1.0,
     localTraceDirectory: __dirname
   }});
