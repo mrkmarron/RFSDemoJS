@@ -154,7 +154,7 @@ function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
         console.log(`(${directoryResultTime}) -- complete reading directory ${directory_path}`);
 
         processForDisplay(tresults, extraDir);
-        res.render(viewName, { files: tresults });
+        res.render(viewName, { files: tresults, port: req.app.get("port") });
       });
     } //end else
   });
