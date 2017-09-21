@@ -1,154 +1,264 @@
 <!doctype html>
 <html>
+
+<!-- 
+    fiddle w/ styling/layout changes: http://jsfiddle.net/mbpohsn4/
+-->
+
 <head>
-<style>
-    html {
-        margin-top: 20px; margin-bottom: 0px; margin-left: 2px; margin-right: 2px;
-        padding: 0;
-        color: black; font-size: 10pt; 
-        font-family: "Calibiri", "Trebuchet MS", sans-serif;
-    }
-    #header {
-        background-color: #1E90FF;
-    }
-    h1 { 
-        margin: 0;
-        padding: 0.5em;
-        text-align: center; 
-    } 
-    h2 { 
-        text-align: center; 
-    }
-    #sidebar {
-        float: left;
-        width: 20%;
-        height: 40em;
-        background-color:#E2E2E2;
-    }
-    #main {
-        float:left;
-        width:80%;
-        height: 40em;
-        background-color:#FFFFFF;
-    }
-    #footer {
-        clear:both;
-        background-color: #1E90FF;
-    }
-</style>
-<style>
-    .css3-treeview li, .css3-treeview ul {
-        padding:0;margin:0;list-style:none
-    }
-    .css3-treeview input {
-        position:absolute;opacity:0
-    }
-    .css3-treeview .dirSpan {
-        text-decoration:none
-    }
-    .css3-treeview .dirSpan:hover {
-        text-decoration:underline
-    }
-    .css3-treeview .fileSpan {
-        text-decoration:none
-    }
-    .css3-treeview .fileSpan:hover {
-        text-decoration:underline
-    }
-    .css3-treeview input+label+ul {
-        margin:0 0 0 30px
-    }
-    .css3-treeview input~ul {
-        display:none
-    }
-    .css3-treeview label, .css3-treeview label::before {
-        cursor:pointer
-    }
-    .css3-treeview input:disabled+label {
-        cursor:default;opacity:.6
-    }
-    .css3-treeview input:checked:not(:disabled)~ul {
-        display:block
-    }
-    .css3-treeview label::before {
-        content:"\25b6";margin:0 5px 0 0;font-size:12px;color:#00f;padding-left:3px
-    }
-    .css3-treeview input:checked+label::before {
-        content:"\25bc"
-    } 
-</style>
-<script>
-
-let server = 'http://' + location.hostname + ':' +  <%= port %> +'/';
-
-function dirClickHandlerLbl(path, uri) {
-    let ielem = document.getElementById('i' + path);
-    ielem.checked = true;
-
-    dirClickHandler(path, uri);
-}
-
-function dirClickHandler(path, uri) {
-    let ielem = document.getElementById('i' + path);
-    if(ielem.checked) {
-        let celem = document.getElementById('c' + path);
-
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            let DONE = this.DONE || 4;
-            if (this.readyState === DONE) {
-                celem.innerHTML = this.responseText;       
-            }
-        };
-                
-        xhttp.open("GET", server + 'subdir/' + uri);
-        xhttp.send();
-    }
-}
-
-function fileClickHandler(uri) {
-    let xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        let DONE = this.DONE || 4;
-        if (this.readyState === DONE) {
-            let celem = document.getElementById('filecontent');
-            celem.innerHTML = this.responseText;       
+    <style>
+        .container {
+            background: blue;
+            padding: 0px;
+            height: 100%;
+            display: -webkit-flex;
+            display: -webkit-box;
+            display: -moz-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-flex-direction: column;
+            flex-direction: column;
         }
-    };
 
-    xhttp.open("GET", server + 'contents/' + uri);
-    xhttp.send();
-}
-</script>
+        .header-bar {
+            color: white;
+            background-color: #0f1e6b;
+            padding: 0.5em;
+            text-align: left;
+            font-size: 30pt;
+            padding: 0.5em;
+            font-family: "Calibiri", "Trebuchet MS", sans-serif;
+            height: 1em;
+            width: 100%;
+        }
+
+        .footer-bar {
+            background-color: #1E90FF;
+            color: white;
+            height: 1em;
+            padding: 0.5em;
+            text-align: left;
+            font-size: 15pt;
+            padding: 0.5em;
+            font-family: "Calibiri", "Trebuchet MS", sans-serif;
+            width: 100%;
+        }
+
+        .main-content-container {
+            background: #999999;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+            min-height: 300px;
+            display: -webkit-flex;
+            display: -webkit-box;
+            display: -moz-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-flex-direction: row;
+            flex-direction: row;
+            border-top: thin solid black;
+            border-bottom: thin solid black;
+        }
+
+        .tree-container {
+            background: #999999;
+            padding: 0.5em;
+            height: 100%;
+            min-height: 300px;
+            flex-basis: 20%;
+            flex-grow: 0;
+            flex-shrink: 0;
+            max-width: 20%;
+            min-width: 20%;
+            overflow: auto;
+            -webkit-flex: 1;
+            -webkit-box-flex: 1;
+            -moz-flex: 1;
+            -moz-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            font-family: "Courier", "Trebuchet MS", sans-serif;
+            text-align: left;
+            font-size: 15px;
+            border-right: thin solid black;
+        }
+
+        .content-container {
+            width: 100%;
+            background: #999999;
+            padding: 0.5em;
+            height: 100%;
+            min-height: 300px;
+            overflow: auto;
+            -webkit-flex: 1;
+            -webkit-box-flex: 1;
+            -moz-flex: 1;
+            -moz-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            font-family: "Courier", "Trebuchet MS", sans-serif;
+            text-align: left;
+            font-size: 15px;
+            border-left: thin solid black;
+        }
+
+    .content-header {
+        border-bottom: thin solid black;
+      color: white;
+      padding: 0.5em;
+      height: 1em;
+      text-align: left;
+      font-size: 15pt;
+      padding: 0.5em;
+      font-family: "Calibiri", "Trebuchet MS", sans-serif;
+      width: 90%;
+    }
+    </style>
+    <style>
+        .css3-treeview li,
+        .css3-treeview ul {
+            padding: 0;
+            margin: 0;
+            list-style: none
+        }
+
+        .css3-treeview input {
+            position: absolute;
+            opacity: 0
+        }
+
+        .css3-treeview .dirSpan {
+            text-decoration: none
+        }
+
+        .css3-treeview .dirSpan:hover {
+            text-decoration: underline
+        }
+
+        .css3-treeview .fileSpan {
+            text-decoration: none
+        }
+
+        .css3-treeview .fileSpan:hover {
+            text-decoration: underline
+        }
+
+        .css3-treeview input+label+ul {
+            margin: 0 0 0 30px
+        }
+
+        .css3-treeview input~ul {
+            display: none
+        }
+
+        .css3-treeview label,
+        .css3-treeview label::before {
+            cursor: pointer
+        }
+
+        .css3-treeview input:disabled+label {
+            cursor: default;
+            opacity: .6
+        }
+
+        .css3-treeview input:checked:not(:disabled)~ul {
+            display: block
+        }
+
+        .css3-treeview label::before {
+            content: "\25b6";
+            margin: 0 5px 0 0;
+            font-size: 12px;
+            color: #1E90FF;
+            padding-left: 3px
+        }
+
+        .css3-treeview input:checked+label::before {
+            content: "\25bc"
+        }
+    </style>
+    <script>
+        let server = 'http://' + location.hostname + ':' +  <%= port %> +'/';
+
+        function dirClickHandlerLbl(path, uri) {
+            let ielem = document.getElementById('i' + path);
+            ielem.checked = true;
+
+            dirClickHandler(path, uri);
+        }
+
+        function dirClickHandler(path, uri) {
+            let ielem = document.getElementById('i' + path);
+            if (ielem.checked) {
+                let celem = document.getElementById('c' + path);
+
+                let xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    let DONE = this.DONE || 4;
+                    if (this.readyState === DONE) {
+                        celem.innerHTML = this.responseText;
+                    }
+                };
+
+                xhttp.open("GET", server + 'subdir/' + uri);
+                xhttp.send();
+            }
+        }
+
+        function fileClickHandler(uri) {
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                let DONE = this.DONE || 4;
+                if (this.readyState === DONE) {
+                    let celem = document.getElementById('filecontent');
+                    celem.innerHTML = this.responseText;
+                }
+            };
+
+            xhttp.open("GET", server + 'contents/' + uri);
+            xhttp.send();
+        }
+    </script>
 </head>
+
 <body>
 
-<div id="container">
-<div id="header"><h1>File Previewer</h1></div>
-<div id="sidebar">
-<h2>File Tree</h2>
-    <div class="css3-treeview">
-    <ul>
-    <li>
-    <input id="i" onclick="dirClickHandler('', '')" type="checkbox" checked="checked" />
-    <label onclick="dirClickHandlerLbl('', '')"><span class="dirSpan">\</span></label>
-    <ul id="c">
-    <%- include('dir.ejs', files) %>
-    </ul>
-    </li>
-    </ul>
+    <div id="container" class="container">
+        <div id="header" class="header-bar">Time Travel Debugging - Demo</div>
+        <div id="main" class="main-content-container">
+        <div id="tree-container" class="tree-container">
+            <div class="content-header">Explorer</div>
+            <div class="treeview-container">
+                <div class="css3-treeview">
+                    <ul>
+                        <li>
+                            <input id="i" onclick="dirClickHandler('', '')" type="checkbox" checked="checked" />
+                            <label onclick="dirClickHandlerLbl('', '')"><span class="dirSpan">\</span></label>
+                            <ul id="c">
+                                <%- include('dir.ejs', files) %>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="content" class="content-container">
+            <div class="content-header">Content</div>
+            <div id="filecontent" class="content"></div>
+        </div>
     </div>
 </div>
 
-<div id="main">
-    <h2>Content Preview</h2>
-    <div id="filecontent"></div>
-</div>
-</div>
-
-<div id="footer">
-    <p>Footer</p>
-</div>
+    <div id="footer" class="footer-bar">
+        <p></p>
+    </div>
 
 </body>
+
 </html>
