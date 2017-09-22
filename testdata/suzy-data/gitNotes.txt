@@ -1,0 +1,14 @@
+Current branch name and list of all the changed files (staged or unstaged)
+git status
+
+Stage file to be commit
+git add <filename>
+
+Stage all files to be commit
+git add -A
+
+Commit staged file
+git commit
+
+Push file to remote
+git push origin <Remote branch name>

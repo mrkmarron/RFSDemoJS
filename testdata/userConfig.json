@@ -1,0 +1,26 @@
+[
+     {
+        "userName": "beatrice",
+        "firstName": "Beatrice",
+        "lastName": "Smith",
+        "dataDirectory": "beatrice"
+    },
+     {
+        "userName": "betty",
+        "firstName": "Betty",
+        "lastName": "Smith",
+        "dataDirectory": "betty"
+    },
+     {
+        "userName": "bob",
+        "firstName": "Bob",
+        "lastName": "Smith",
+        "dataDirectory": "bob"
+    },
+     {
+        "userName": "suzy",
+        "firstName": "Suzy",
+        "lastName": "Smith",
+        "dataDirectory": "suzy-data"
+    }
+]
