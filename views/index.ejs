@@ -107,17 +107,17 @@
             border-left: thin solid black;
         }
 
-    .content-header {
-        border-bottom: thin solid black;
-      color: white;
-      padding: 0.5em;
-      height: 1em;
-      text-align: left;
-      font-size: 15pt;
-      padding: 0.5em;
-      font-family: "Calibiri", "Trebuchet MS", sans-serif;
-      width: 90%;
-    }
+        .content-header {
+            border-bottom: thin solid black;
+            color: white;
+            padding: 0.5em;
+            height: 1em;
+            text-align: left;
+            font-size: 15pt;
+            padding: 0.5em;
+            font-family: "Calibiri", "Trebuchet MS", sans-serif;
+            width: 90%;
+        }
     </style>
     <style>
         .css3-treeview li,
@@ -205,7 +205,7 @@
                     }
                 };
 
-                xhttp.open("GET", server + 'subdir/' + uri);
+                xhttp.open("GET", server + '/user/<%= currentUser %>/subdir/' + uri);
                 xhttp.send();
             }
         }
@@ -220,9 +220,10 @@
                 }
             };
 
-            xhttp.open("GET", server + 'contents/' + uri);
+            xhttp.open("GET", server + 'user/<%= currentUser %>/contents/' + uri);
             xhttp.send();
         }
+
     </script>
 </head>
 
@@ -231,29 +232,39 @@
     <div id="container" class="container">
         <div id="header" class="header-bar">Time Travel Debugging - Demo</div>
         <div id="main" class="main-content-container">
-        <div id="tree-container" class="tree-container">
-            <div class="content-header">Explorer</div>
-            <div class="treeview-container">
-                <div class="css3-treeview">
+            <div id="user-container" class="tree-container">
+                <div id="user-header" class="content-header">Users</div>
+                <div>
                     <ul>
-                        <li>
-                            <input id="i" onclick="dirClickHandler('', '')" type="checkbox" checked="checked" />
-                            <label onclick="dirClickHandlerLbl('', '')"><span class="dirSpan">\</span></label>
-                            <ul id="c">
-                                <%- include('dir.ejs', files) %>
-                            </ul>
-                        </li>
+                        <% users.forEach(function(user) { %>
+                            <li><a href="/user/<%= user.userName %>"> <%= user.lastName %>, <%= user.firstName %></a></li>
+                            <% });%>
                     </ul>
                 </div>
             </div>
-        </div>
-        
-        <div id="content" class="content-container">
-            <div class="content-header">Content</div>
-            <div id="filecontent" class="content"></div>
+            <div id="tree-container" class="tree-container">
+                <div class="content-header"><%= currentUser ? currentUser + '\'s' : 'User' %> Data</div>
+                <div class="treeview-container">
+                    <div class="css3-treeview">
+                        <ul>
+                            <li>
+                                <input id="i" onclick="dirClickHandler('', '')" type="checkbox" checked="checked" />
+                                <label onclick="dirClickHandlerLbl('', '')"><span class="dirSpan">\</span></label>
+                                <ul id="c">
+                                    <%- include('dir.ejs', files) %>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content" class="content-container">
+                <div class="content-header">Content</div>
+                <div id="filecontent" class="content"></div>
+            </div>
         </div>
     </div>
-</div>
 
     <div id="footer" class="footer-bar">
         <p></p>

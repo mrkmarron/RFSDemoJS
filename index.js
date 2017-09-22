@@ -7,8 +7,8 @@ var process = require('process');
 var util = require('./util');
 var fs = require('fs');
 
- // setup credentials for cloud trace management
- require('./DiagnosticsBuddy/index.js').enableAzureUploads();
+// setup credentials for cloud trace management
+require('./DiagnosticsBuddy/index.js').enableAzureUploads();
 
 console.log('process.env.DO_TTD_RECORD is [' + process.env.DO_TTD_RECORD + ']');
 console.log('process.env.DIAGNOSTICS_BUDDY_STORAGE_CREDENTIALS is [' + process.env.DIAGNOSTICS_BUDDY_STORAGE_CREDENTIALS + ']');
@@ -17,16 +17,18 @@ console.log('path.resolve(\'./\' is [' + path.resolve('./') + ']')
 // set tracing options for demo purposes
 if (process.jsEngine && process.jsEngine === 'chakracore') {
   var trace_mgr = require('trace_mgr');
-  trace_mgr.setOptions({ initialRates: {
-    emitOnLogWarn: 1.0,
-    emitOnLogError: 1.0,
-    emitOnAssert: 1.0,
-    localTraceDirectory: __dirname
-  }});
+  trace_mgr.setOptions({
+    initialRates: {
+      emitOnLogWarn: 1.0,
+      emitOnLogError: 1.0,
+      emitOnAssert: 1.0,
+      localTraceDirectory: __dirname
+    }
+  });
 }
 
 if (!fs.existsSync('_tmptmptmp')) {
-    fs.mkdirSync('_tmptmptmp');
+  fs.mkdirSync('_tmptmptmp');
 }
 if (!fs.existsSync('_diagnosticTraces')) {
   fs.mkdirSync('_diagnosticTraces');
@@ -50,10 +52,10 @@ app.get('/', noCache, function (req, res) {
 
 app.get('/forceTrace', noCache, function (req, res) {
   process.nextTick(() => {
-      setTimeout(() => {
-          console.error('this is a forced trace!');
-          util.loadDirectoryInfo(DATA_DIR, req, res, 'index.ejs', DATA_DIR);
-      });
+    setTimeout(() => {
+      console.error('this is a forced trace!');
+      util.loadDirectoryInfo(DATA_DIR, req, res, 'index.ejs', DATA_DIR);
+    });
   });
 });
 
@@ -61,13 +63,18 @@ app.get('/subdir/', noCache, function (req, res) {
   util.loadDirectoryInfo(DATA_DIR, req, res, 'dir.ejs');
 });
 
-app.get('/subdir/:subpath', noCache, function (req, res) {
+app.get('/user/:userName/subdir/:subpath', noCache, function (req, res) {
   util.loadDirectoryInfo(DATA_DIR, req, res, 'dir.ejs');
 });
 
-app.get('/contents/:subpath', noCache, function (req, res) {
+app.get('/user/:userName/contents/:subpath', noCache, function (req, res) {
   util.loadFileInfo(DATA_DIR, req, res);
 });
+
+app.get('/user/:userName', noCache, function (req, res) {
+  util.loadDirectoryInfo(DATA_DIR, req, res, 'index.ejs');
+});
+
 
 app.use(function (err, req, res, next) {
   console.error(err.stack);
@@ -105,5 +112,5 @@ var server = app.listen(port, function () {
     pid: process.pid
   }
   console.log(msg);
-}); 
+});
 
