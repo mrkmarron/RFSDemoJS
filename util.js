@@ -1,18 +1,18 @@
-"use strict";
+'use strict';
 
-const path = require("path");
-const fs = require("fs-extra");
-const async = require("async");
-const chalk = require("chalk");
+const path = require('path');
+const fs = require('fs-extra');
+const async = require('async');
+const chalk = require('chalk');
 
-var users = require("./users");
+var users = require('./users');
 
 var errCtr = 0;
 var idCtr = 0;
 
 function resourceError(err, res, msg) {
   console.warn(chalk.red(msg));
-  res.status(501).send("request error: " + msg);
+  res.status(501).send('request error: ' + msg);
 }
 
 function createSinglePathInfoGetter(abspath) {
@@ -28,7 +28,10 @@ function createSinglePathInfoGetter(abspath) {
           fkind = FileKind.Other;
         }
       }
-      callback(err, { name: abspath, kind: fkind });
+      callback(err, {
+        name: abspath,
+        kind: fkind
+      });
     });
   };
 }
@@ -45,57 +48,53 @@ function processForDisplay(info, root) {
 
 var FileKind;
 (function (FileKind) {
-  FileKind[(FileKind["Invalid"] = 0)] = "Invalid";
-  FileKind[(FileKind["File"] = 1)] = "File";
-  FileKind[(FileKind["Directory"] = 2)] = "Directory";
-  FileKind[(FileKind["Other"] = 3)] = "Other";
+  FileKind[(FileKind['Invalid'] = 0)] = 'Invalid';
+  FileKind[(FileKind['File'] = 1)] = 'File';
+  FileKind[(FileKind['Directory'] = 2)] = 'Directory';
+  FileKind[(FileKind['Other'] = 3)] = 'Other';
 })(FileKind || (FileKind = {}));
 
 function canonicalPath() {
   const args = Array.prototype.slice.call(arguments, 0);
-  // var args = [];
-  // for (var _i = 0; _i < arguments.length; _i++) {
-  //   args[_i - 0] = arguments[_i];
-  // }
   return path.normalize(path.join.apply(path, args));
 }
 
 function htmlEncodeContent(unsafe_str) {
   var escaped = unsafe_str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/\"/g, "&quot;")
-    .replace(/\'/g, "&#39;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\'/g, '&quot;')
+    .replace(/\'/g, '&#39;');
   var wstrans = escaped
-    .replace(/ /g, "&nbsp;")
-    .replace(/(\r\n)|(\n)/g, "<br />")
-    .replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+    .replace(/ /g, '&nbsp;')
+    .replace(/(\r\n)|(\n)/g, '<br />')
+    .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
   return wstrans;
 }
 
 function processFileLoadForDisplay(file_path, data) {
-  var output = "";
+  var output = '';
 
-  if (data === "") {
-    output = "<em>The file '" + path.basename(file_path) + "' is empty!</em>";
+  if (data === '') {
+    output = '<em>The file \'' + path.basename(file_path) + '\' is empty!</em>';
   } else if (
-    path.extname(file_path) === ".js" ||
-    path.extname(file_path) === ".html"
+    path.extname(file_path) === '.js' ||
+    path.extname(file_path) === '.html'
   ) {
     var htmlstr = htmlEncodeContent(data.toString());
-    output = "<code>" + htmlstr + "</code>";
+    output = '<code>' + htmlstr + '</code>';
   } else if (
-    path.extname(file_path) === ".txt" ||
-    path.extname(file_path) === ".log"
+    path.extname(file_path) === '.txt' ||
+    path.extname(file_path) === '.log'
   ) {
     var htmlstr = htmlEncodeContent(data.toString());
-    output = '<div class="plaintext">' + htmlstr + "</div>";
+    output = '<div class="plaintext">' + htmlstr + '</div>';
   } else {
     output =
-      "<em>Cannot display the content of '" +
+      '<em>Cannot display the content of \'' +
       path.basename(file_path) +
-      "'.</em>";
+      '\'.</em>';
   }
 
   return output;
@@ -109,7 +108,7 @@ function loadFileInfo(rootDir, req, res) {
   var fileRequestTime = new Date().toISOString();
   console.log(`(${fileRequestTime}) -- start reading file ${file_path}`);
 
-  fs.readFile(file_path, "utf8", function (err, data) {
+  fs.readFile(file_path, 'utf8', function (err, data) {
     if (err) {
       var fileErrorTime = new Date().toISOString();
       resourceError(
@@ -129,12 +128,12 @@ function loadFileInfo(rootDir, req, res) {
 
 function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
   const userData = users.getUsers();
-  const userName = req.params.userName || "";
+  const userName = req.params.userName || '';
 
   if (!userName) {
     res.render(viewName, {
       files: [],
-      port: req.app.get("port"),
+      port: req.app.get('port'),
       users: userData,
       currentUser: undefined
     });
@@ -185,11 +184,11 @@ function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
           })
           .map(function (value) {
             var isfile = value.kind === FileKind.File;
-            var id = "_eid" + idCtr++;
+            var id = '_eid' + idCtr++;
             var shortname =
-              path.basename(value.name) + (isfile ? "" : path.sep);
+              path.basename(value.name) + (isfile ? '' : path.sep);
             var encodedname = encodeURIComponent(
-              value.name.substr(goodDir.length + 1) + (isfile ? "" : path.sep)
+              value.name.substr(goodDir.length + 1) + (isfile ? '' : path.sep)
             );
             return {
               isfile: isfile,
@@ -208,7 +207,7 @@ function loadDirectoryInfo(rootDir, req, res, viewName, extraDir) {
       processForDisplay(tresults, extraDir);
       res.render(viewName, {
         files: tresults,
-        port: req.app.get("port"),
+        port: req.app.get('port'),
         users: userData,
         currentUser: userName
       });
