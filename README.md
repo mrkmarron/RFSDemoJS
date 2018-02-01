@@ -25,7 +25,8 @@ git clone https://github.com/mrkmarron/RFSDemoJS <appdir>
 ## Running the Application and Getting an instantRepro Trace
 Start up the server, by default listents on `127.0.0.1`, in record mode:
 ```
-cd <appdir> 
+cd <appdir>
+npm install
 nvs run chakracore/8.0.0-pre3 --record index.js
 ```
 
